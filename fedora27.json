@@ -1,0 +1,43 @@
+{
+  "builders": [{
+    "type": "virtualbox-iso",
+    "guest_os_type": "Fedora_64",
+    "iso_url": "https://download.fedoraproject.org/pub/fedora/linux/releases/27/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-27-1.6.iso",
+    "iso_checksum": "18ef4a6f9f470b40bd0cdf21e6c8f5c43c28e3a2200dcc8578ec9da25a6b376b",
+    "iso_checksum_type": "sha256",
+    "vm_name": "packer-fedora27-ws-x86_64",
+    "virtualbox_version_file": "~/version",
+    "disk_size": "{{user `disk_size`}}",
+    "headless": "false",
+    "http_directory": "http",
+    "boot_wait": "5s",
+    "boot_command": [
+      "<tab> ",
+      "inst.text inst.geoloc=0 inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-fedora27.cfg ",
+      "<enter>"
+    ],
+    "ssh_timeout": "{{user `ssh_timeout`}}",
+    "ssh_username": "jon",
+    "ssh_password": "jon",
+    "shutdown_command": "sudo systemctl poweroff",
+    "vboxmanage": [
+      ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+      ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
+    ],
+    "export_opts": [
+      "--manifest"
+    ]
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "scripts/virtualbox.sh"
+    ]
+  }],
+  "variables": {
+    "cpus": "4",
+    "memory": "4096",
+    "disk_size": "40000",
+    "ssh_timeout": "60m"
+  }
+}
