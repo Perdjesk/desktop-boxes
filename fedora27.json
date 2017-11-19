@@ -7,6 +7,8 @@
     "iso_checksum_type": "sha256",
     "vm_name": "packer-fedora27-ws-x86_64",
     "virtualbox_version_file": "~/version",
+    "guest_additions_url": "http://download.virtualbox.org/virtualbox/{{ .Version }}/VBoxGuestAdditions_{{ .Version }}.iso",
+    "guest_additions_sha256": "631ca8e8d513acf43a75de56a71a31aaffb5624864c57d10346ba657d991ec1e",
     "disk_size": "{{user `disk_size`}}",
     "headless": "false",
     "http_directory": "http",
